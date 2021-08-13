@@ -1,0 +1,51 @@
+<html>
+<head>
+<title>REST API Calculator</title>
+
+<script>
+
+var RESTAPIURL = 'https://svfsc8a8og.execute-api.us-east-1.amazonaws.com/prod/';
+
+function calc(operation)
+{
+	// Read both input values
+	var A = document.getElementById("A").value;
+	var B = document.getElementById("B").value;
+	var C = document.getElementById("C").value;
+	
+	// Display operation and "please wait" message
+	document.getElementById("operation").textContent = operation;
+	document.getElementById("D").textContent = 'Please wait...';
+
+	// Fetch data from API
+	fetch(RESTAPIURL + operation + '?A=' + A + '&B=' + B + '&C=' + C)
+
+	// Convert response string to json object
+	.then(response => response.json())
+	.then(response => {
+		
+		// Display result
+		document.getElementById("D").textContent = response.body;
+		
+	})
+	.catch(err => {
+		// Handle errors
+		console.log(err);
+	});	  
+}
+
+
+</script>
+</head>
+<body>
+A: <input type="text" id="A"><br>
+B: <input type="text" id="B"><br>
+C: <input type="text" id="C"><p>
+Operation: <span id="operation"> </span><p>
+Result: <span id="D"> </span><p>
+<button type="button" onclick="calc('avg')">Average </button><p>
+<button type="button" onclick="calc('mid')">Middle value</button><p>
+<button type="button" onclick="calc('pow')">A to the power of B</button><p>
+<button type="button" onclick="calc('root')">Root of A squared plus B squared</button><p>
+</body>
+</html>
